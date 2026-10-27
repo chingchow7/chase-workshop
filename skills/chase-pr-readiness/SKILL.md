@@ -1,57 +1,23 @@
 ---
 name: chase-pr-readiness
-description: Review completed changes for pull-request readiness against Chase engineering standards, including correctness, reuse, scope, comments, contracts, and meaningful test coverage. Use before opening or updating a PR or when asked to review a branch, commit, diff, or PR. Report findings before editing.
+description: Check your own completed change before opening or updating a pull request, including review findings, verification gaps, and submission readiness. Use for a pre-submission check of local work; use chase-pr-review for a reviewer assessment of a submitted PR or another author's change.
 ---
 
 # Chase PR readiness
 
-Review the actual change and enough surrounding code to judge its consequences. Default to report-only: do not edit application files, stage, commit, or publish findings. A request to review does not authorize fixes. When the user explicitly requests fixes, identify findings first, apply the authorized changes, and recheck the affected behavior.
+Check the author's completed work before submission. Apply the same engineering review bar as `chase-pr-review`, then identify anything needed to make the change ready for review.
 
 ## Establish scope
 
 1. Read [Chase engineering standards](../../standards/engineering.md) relative to this file. If missing, locate the complete checkout rather than claiming to have applied it.
 2. Establish the work repository and read applicable project instructions plus `<work repo>/.agents/chase-project.md` if present.
-3. Follow [scope resolution](references/scope.md) to identify the requested target, comparison base, and relevant local changes. Never assume the target branch is `main`. State the reviewed scope and resolved revisions.
-4. Read the diff, affected implementations, relevant callers, contracts, and tests. Include changed behavior that lacks tests; reviewing only modified test files is insufficient.
+3. Read and follow the [shared review guide](../../standards/review.md), including its scope reference, review areas, verification rules, and evidence-based report. Report-only is the default; fixes and external actions require user authorization, including authorization already supplied.
 
-## Review in focused passes
+## Submission checks
 
-Apply the shared standards through these lenses. Work sequentially by default; these are review passes, not requirements for separate agents or installed reviewer skills.
+- Unless the user requests a specific revision or layer, assess the final local change: committed branch changes plus relevant staged, unstaged, and untracked work. Identify anything that is still local rather than in an existing PR.
+- Apply every relevant review area in the shared guide. Security, performance, reuse, documentation quality, and project conventions matter before submission as well as during independent review.
+- Confirm that the change satisfies the task and that intended files, contract updates, and meaningful test coverage are included. Separate implementation defects from missing verification or incomplete submission context.
+- When asked, draft a concise PR description grounded in the actual change, its purpose, and observed verification. Identify required configuration or rollout steps when the change needs them; do not invent a rollout process for an ordinary edit.
 
-| Pass | Questions that matter |
-| --- | --- |
-| Behavior and failures | Does the change satisfy the requested outcome? What concrete inputs, states, or failures expose a regression? For changed error paths, identify the failure conditions and caller-visible responses before judging whether errors are truthful and actionable. |
-| Boundaries and contracts | Are callers, authorization, persisted data, public names, configuration, and side effects still compatible? Consider concurrency or partial updates when relevant. |
-| Reuse and structure | Does suitable functionality already exist? Does the design reduce complexity or distribute it across more layers? Are new abstractions and dependencies justified? |
-| Types and names | Does the change use existing domain contracts and preserve useful guarantees? Do new names misstate behavior, units, or representation? |
-| Test quality and coverage | Would a plausible broken implementation pass? Do assertions execute, inspect the relevant contract, and exercise the subject rather than its replacement? Is important changed behavior missing coverage? |
-| Comments and scope | Are added or affected comments necessary and accurate? Are unrelated edits, stale explanations, session narration, or avoidable churn present? |
-
-For each candidate finding, reread the location and check the relevant callers and constraints. Report defects introduced by the change or existing behavior the change makes newly problematic. An old issue merely nearby is not a PR finding. For an explicitly requested file snapshot, review issues present in the named files without claiming they were introduced by a diff.
-
-Distinguish confirmed impact from unanswered questions. Give a concrete trigger and consequence for correctness findings; for maintainability findings, identify the actual duplicated responsibility, ambiguity, or unnecessary moving parts. Aesthetic preference alone is insufficient. Check that a proposed remedy fits existing contracts and would actually simplify the code.
-
-## Verification and restraint
-
-- Run relevant non-destructive checks when practical and allowed. Report-only review may run tests, but avoid commands that rewrite sources, snapshots, or fixtures or affect shared services without authorization.
-- Treat CI results as evidence only when their revision and scope are known. Do not infer a passing pipeline from configuration files or from a claim about another revision.
-- When practical, demonstrate a weak test with a concrete missed regression. If deliberately breaking the implementation or checking a proposed construct requires edits, use a disposable copy of the exact reviewed state or a detached worktree for its commit. A worktree at `HEAD` alone excludes staged, unstaged, and untracked changes; include relevant local changes when those are in scope. Keep shared services isolated, preserve the user's worktree, and do not stash or reset their changes for an experiment.
-- Identify skipped applicable passes and unavailable verification. Distinguish checks that do not apply from checks that were not performed. A prose-only change does not need application tests simply to fill a checklist.
-- Consolidate duplicate findings and reconcile contradictory remedies. Preserve user decisions from earlier rounds; revisit one only with materially new evidence. A prior decision covers a specific claim at a location, not the surrounding function or file. Review other changes normally.
-- Do not manufacture findings, demand arbitrary file sizes or assertion styles, or propose speculative refactors. Avoid repeated review loops without new changes or evidence.
-
-## Report
-
-Lead with actionable findings, ordered by consequence. For each, give a verified `path:line`, a short title, the trigger and consequence, and a focused remedy. Label it **Blocking** when a demonstrated defect or violated requirement should prevent merging; label other worthwhile improvements **Suggestion**. Keep unresolved questions separate from findings and explain what would settle them.
-
-State the evidence for each finding: **Observed** with the command or action and result, **Traced** with the relevant code path and concrete input or state but no execution, or **Mixed** when both contribute. A blocking issue can be established by a conclusive code trace; do not present an untested hypothesis as one. For structural findings, identify the specific duplicated responsibility or unnecessary dependency rather than inventing an execution claim.
-
-Mark a remedy **Behavior-affecting** when it changes what users, callers, persisted data, or configuration observe, and state what changes and which consumers need attention. Mark it **Behavior-preserving** only when supported; otherwise say the impact is unverified. Do not treat an omitted label as proof that behavior is unchanged.
-
-Finish with the reviewed scope, verification performed or unavailable, and one assessment:
-
-- **Changes needed:** blocking findings remain.
-- **No blocking findings:** review completed without a blocking issue; this is not a claim that every possible defect was excluded.
-- **Review incomplete:** missing scope, requirements, access, or evidence prevents a meaningful assessment. Identify the gap, even if some findings are already known.
-
-Mention limitations alongside the assessment. A missing critical verification can make the review incomplete; a non-applicable check does not. Keep optional suggestions separate, and say plainly when there are no findings. If requested, draft a PR description using observed changes and verification without claiming unperformed checks.
+Finish with the shared guide's findings and assessment, then a short list of remaining submission work if any. Do not create, update, approve, merge, or publish a PR merely because this skill ran.

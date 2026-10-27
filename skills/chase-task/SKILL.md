@@ -1,6 +1,6 @@
 ---
 name: chase-task
-description: Implement a development task, feature, or planned refactor using Chase engineering standards, existing project patterns, and behavior-focused verification. Use for requested implementation work; use chase-bug for defect diagnosis and chase-pr-readiness for a review of completed changes.
+description: Implement a development task, feature, or planned refactor using Chase engineering standards, existing project patterns, and behavior-focused verification. Use for requested implementation work; use chase-bug for defect diagnosis and chase-pr-readiness for a pre-submission check of your completed change.
 ---
 
 # Chase task

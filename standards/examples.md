@@ -31,6 +31,10 @@ Remove session narration such as `// Updated this to match your request`. A usef
 
 A suppression, doctest, coverage directive, or documentation annotation may affect tools. Investigate before treating its removal as cosmetic.
 
+`// Implements SEARCH-241 as requested` adds task narration rather than lasting context. A ticket reference is useful when it preserves a specific customer constraint, such as `// Customer exports must keep archived invoices (ACCT-241)`. Keep the constraint understandable even if the ticket is unavailable.
+
+A maintained architecture decision can need several paragraphs. A new design document that simply repeats function names, call order, and ticket IDs without a durable decision creates a second description to keep synchronized. Judge that burden rather than guessing who wrote it.
+
 ## Reuse
 
 If `getVisibleProjects(user)` already applies tenant and permission rules, do not add another query with a slightly different copy of those rules. Inspect its behavior and reuse or extend the canonical implementation.
@@ -64,3 +68,11 @@ Insufficient:
 > This function is too long. Split it up.
 
 Explain the specific responsibilities or coupling that cause a problem and how the remedy reduces them. A personal line-count preference is not enough.
+
+## Review calibration
+
+- A tenant-facing list handler scans a growing table even though the existing tenant index supports its access pattern: investigate the scan and cite the actual key/index alternative. A controlled full-table export is not automatically the same defect.
+- A Lambda role gains unrelated write/delete actions to use a shared read helper: identify the unnecessary privileges and supported narrower grant. Do not ban a wildcard when the action cannot be resource-scoped.
+- A replacement input omits behavior already implemented by the shared accessible input: inspect both contracts and recommend reuse if it fits. Two superficially similar inputs with different semantics need not be combined.
+- A CodeRabbit thread already identifies the same missing ownership check: verify it against the reviewed head, highlight the existing thread's priority, and recommend supporting it rather than drafting a second comment. If fixed, do not list it as outstanding.
+- A CDK change broadens a public resource policy: prioritize that file over a handler's mechanical import change. The priority-file list follows risk, not file type.

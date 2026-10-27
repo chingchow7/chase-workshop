@@ -8,7 +8,7 @@
 - Reviewed: 2026-10-27
 - License: MIT
 
-Chase Workshop's engineering standards and review workflow were informed by and adapted from Mountain Time's `comment-slayer`, `code-structure-review`, `type-precision-review`, `test-review`, `error-path-review`, `naming-review`, and `code-carve` skills. Its verification skills and catalog also informed the emphasis on exercising real user flows. Wording, defaults, scope, and organization have been tailored to Chase Workshop. Upstream code, hooks, and orchestration are not bundled or required.
+Chase Workshop's engineering standards and review workflow were informed by and adapted from Mountain Time's `comment-slayer`, `prose-review`, `code-structure-review`, `type-precision-review`, `test-review`, `error-path-review`, `naming-review`, and `code-carve` skills. Its verification skills and catalog also informed the emphasis on exercising real user flows. Wording, defaults, scope, and organization have been tailored to Chase Workshop. Upstream code, hooks, and orchestration are not bundled or required.
 
 The upstream permission notice is reproduced below. It applies to the upstream material and adaptations; it does not itself select a license for independently authored Chase Workshop material.
 

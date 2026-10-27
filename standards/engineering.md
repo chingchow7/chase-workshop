@@ -6,7 +6,7 @@ Follow the user's task and applicable project instructions. Use documented archi
 
 ## Focus and reuse
 
-- Search relevant modules, callers, shared utilities, types, and tests before adding functionality. Reuse an implementation when its behavior and ownership fit; similar names or syntax alone do not establish a match.
+- Search relevant modules, callers, shared utilities, UI components, service libraries, types, and tests before adding functionality. Reuse an implementation when its behavior and ownership fit; similar names or syntax alone do not establish a match.
 - Keep the change focused. Avoid unrelated cleanup, formatting churn, dependency upgrades, and generated-file edits outside the project's generation workflow.
 - Choose the simplest coherent solution to the current requirement. Avoid speculative configuration, fallback paths, extension points, and wrappers that add no useful boundary.
 - Prefer removing unnecessary concepts over moving the same complexity across more files. Judge an extraction by what callers must understand and what future changes become easier, rather than by line count.
@@ -17,20 +17,25 @@ Follow the user's task and applicable project instructions. Use documented archi
 - Comments must be accurate, precise, and necessary. Prefer the shortest explanation that preserves the needed context; there is no fixed line limit.
 - Explain a business or customer requirement, external constraint, subtle algorithm, safety invariant, or non-obvious consequence when the code cannot communicate it adequately.
 - Remove obvious narration, repeated names or types, editing-session commentary, commented-out code, and decorative banners that provide no useful navigation.
+- Keep file preambles and design or steering documents proportional to their lasting purpose. Avoid essays that narrate routine implementation or duplicate maintained guidance. Preserve useful decisions, constraints, operating instructions, and required documentation; length or suspected AI authorship alone is not a defect.
 - Correct or remove comments made stale by the change. Preserve legal notices, tool directives, and necessary public API documentation. Investigate suppressions before removing them; comments and docstrings can affect tooling or runtime behavior.
 - Prefer clearer names or control flow when they eliminate the need for an explanation without distorting the design. A necessary explanation is not, by itself, proof of defective code.
-- State the constraint itself. A ticket link may supplement that explanation but should not replace it. Review untouched comments only when the change makes them inaccurate or necessary to understand the new behavior.
+- State the constraint itself. In durable code comments and design/steering docs, retain a ticket reference only when it preserves a specific customer requirement whose details live in that ticket; keep the essential constraint understandable locally. Avoid routine ticket narration or repeated IDs. Tracking links in PR metadata or required release records serve a different purpose. Review untouched prose only when the change makes it inaccurate or necessary to understand the new behavior.
 - Use the project's vocabulary. Flag naming that conceals units, representation, lifecycle, or behavior; accept short, unambiguous locals. Public names, serialized fields, and configuration keys are contracts, so renaming them requires compatibility analysis.
+- Reuse named domain constants where they exist and explain meaningful policy values or units through names. Avoid unexplained magic numbers without turning every obvious literal or test fixture into a new constant. Follow actual lint and formatting rules.
 
 ## Contracts, types, and failures
 
 - Inspect affected callers and consumers when changing a contract, including error payloads, persisted data, defaults, configuration, and deployment assumptions.
+- Preserve established schemas, key builders, and access patterns, including PK/SK and index conventions when relevant. Check compatibility and migrations before changing them rather than copying an isolated pattern blindly.
+- Apply least privilege to changed roles, policies, and operations using the service's supported scoping. Check server-side ownership and tenant authorization, not only authentication. Tie security claims to the actual trust boundary and reachable access path.
 - Reuse the project's established domain types and schemas. Avoid parallel declarations, unsafe casts, and weaker types that discard useful guarantees. Do not introduce a new type framework merely to satisfy this preference.
 - Validate untrusted input at the appropriate boundary. Preserve checks that enforce real invariants; remove a guard only after confirming the runtime and type-checker consequences under the project's actual configuration.
 - When a proposed remedy depends on compiler behavior, check the proposed construct with the project's actual checker and configuration, including relevant flags. If unavailable, label its type compatibility unverified. A successful compile does not establish unchanged runtime or error behavior; check those separately.
 - Follow established error conventions. Do not swallow failures, fabricate success, or disguise invalid state with unjustified defaults. Recovery and retries need defined semantics, bounded behavior, and consideration of repeated side effects.
 - Give authorized callers enough safe information to act on an error. Where the contract supports it, report multiple actionable validation failures together. Preserve intentional fail-fast behavior and do not leak private data or internals to make an error more complete.
 - When relevant, inspect authorization and ownership, resource cleanup, cancellation, concurrency, and partial updates. Tie checks to the affected behavior; avoid a generic hardening campaign.
+- Check data-access and workload growth. Prefer suitable existing queries or key lookups over unnecessary scans or fetch-all filtering; check pagination, batching, and repeated calls. Preserve justified scans or bounded jobs and avoid speculative optimization without a concrete cost or scaling concern.
 
 ## Verification
 

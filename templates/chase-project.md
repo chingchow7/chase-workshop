@@ -4,11 +4,13 @@ Copy this file to the application repository as `.agents/chase-project.md`. Repl
 
 ## Architecture and reuse
 
-Name the layers, ownership boundaries, and canonical modules an implementation should inspect. Link to maintained architecture guidance rather than repeating it.
+Name the layers, ownership boundaries, and canonical modules an implementation should inspect, including shared UI components and service packages used by multiple Lambdas or services when relevant. Link to maintained architecture guidance rather than repeating it.
 
 ## Contracts and vocabulary
 
 Name shared schemas, domain terminology, public interfaces, compatibility requirements, and relevant error conventions.
+
+For data access, identify canonical key builders, PK/SK or index conventions, expected queries, and intentional bounded scans when applicable. For security-sensitive work, identify ownership/tenant boundaries and where roles, resource policies, and trust relationships are defined. Record local constraints rather than inventing a universal schema or policy.
 
 ## Tests and verification
 
