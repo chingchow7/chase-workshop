@@ -20,7 +20,7 @@ Apply the shared standards through these lenses. Work sequentially by default; t
 
 | Pass | Questions that matter |
 | --- | --- |
-| Behavior and failures | Does the change satisfy the requested outcome? What concrete inputs, states, or failures expose a regression? Are errors truthful and actionable? |
+| Behavior and failures | Does the change satisfy the requested outcome? What concrete inputs, states, or failures expose a regression? For changed error paths, identify the failure conditions and caller-visible responses before judging whether errors are truthful and actionable. |
 | Boundaries and contracts | Are callers, authorization, persisted data, public names, configuration, and side effects still compatible? Consider concurrency or partial updates when relevant. |
 | Reuse and structure | Does suitable functionality already exist? Does the design reduce complexity or distribute it across more layers? Are new abstractions and dependencies justified? |
 | Types and names | Does the change use existing domain contracts and preserve useful guarantees? Do new names misstate behavior, units, or representation? |
@@ -35,14 +35,18 @@ Distinguish confirmed impact from unanswered questions. Give a concrete trigger 
 
 - Run relevant non-destructive checks when practical and allowed. Report-only review may run tests, but avoid commands that rewrite sources, snapshots, or fixtures or affect shared services without authorization.
 - Treat CI results as evidence only when their revision and scope are known. Do not infer a passing pipeline from configuration files or from a claim about another revision.
-- When practical, demonstrate a weak test with a concrete missed regression. If deliberately breaking the implementation would help, use an isolated copy and existing execution permissions; do not mutate the user's worktree during review.
+- When practical, demonstrate a weak test with a concrete missed regression. If deliberately breaking the implementation or checking a proposed construct requires edits, use a disposable copy of the exact reviewed state or a detached worktree for its commit. A worktree at `HEAD` alone excludes staged, unstaged, and untracked changes; include relevant local changes when those are in scope. Keep shared services isolated, preserve the user's worktree, and do not stash or reset their changes for an experiment.
 - Identify skipped applicable passes and unavailable verification. Distinguish checks that do not apply from checks that were not performed. A prose-only change does not need application tests simply to fill a checklist.
-- Consolidate duplicate findings and reconcile contradictory remedies. Preserve user decisions from earlier rounds; revisit one only with materially new evidence. Review other changes normally.
+- Consolidate duplicate findings and reconcile contradictory remedies. Preserve user decisions from earlier rounds; revisit one only with materially new evidence. A prior decision covers a specific claim at a location, not the surrounding function or file. Review other changes normally.
 - Do not manufacture findings, demand arbitrary file sizes or assertion styles, or propose speculative refactors. Avoid repeated review loops without new changes or evidence.
 
 ## Report
 
 Lead with actionable findings, ordered by consequence. For each, give a verified `path:line`, a short title, the trigger and consequence, and a focused remedy. Label it **Blocking** when a demonstrated defect or violated requirement should prevent merging; label other worthwhile improvements **Suggestion**. Keep unresolved questions separate from findings and explain what would settle them.
+
+State the evidence for each finding: **Observed** with the command or action and result, **Traced** with the relevant code path and concrete input or state but no execution, or **Mixed** when both contribute. A blocking issue can be established by a conclusive code trace; do not present an untested hypothesis as one. For structural findings, identify the specific duplicated responsibility or unnecessary dependency rather than inventing an execution claim.
+
+Mark a remedy **Behavior-affecting** when it changes what users, callers, persisted data, or configuration observe, and state what changes and which consumers need attention. Mark it **Behavior-preserving** only when supported; otherwise say the impact is unverified. Do not treat an omitted label as proof that behavior is unchanged.
 
 Finish with the reviewed scope, verification performed or unavailable, and one assessment:
 

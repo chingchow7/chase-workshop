@@ -27,6 +27,7 @@ Follow the user's task and applicable project instructions. Use documented archi
 - Inspect affected callers and consumers when changing a contract, including error payloads, persisted data, defaults, configuration, and deployment assumptions.
 - Reuse the project's established domain types and schemas. Avoid parallel declarations, unsafe casts, and weaker types that discard useful guarantees. Do not introduce a new type framework merely to satisfy this preference.
 - Validate untrusted input at the appropriate boundary. Preserve checks that enforce real invariants; remove a guard only after confirming the runtime and type-checker consequences under the project's actual configuration.
+- When a proposed remedy depends on compiler behavior, check the proposed construct with the project's actual checker and configuration, including relevant flags. If unavailable, label its type compatibility unverified. A successful compile does not establish unchanged runtime or error behavior; check those separately.
 - Follow established error conventions. Do not swallow failures, fabricate success, or disguise invalid state with unjustified defaults. Recovery and retries need defined semantics, bounded behavior, and consideration of repeated side effects.
 - Give authorized callers enough safe information to act on an error. Where the contract supports it, report multiple actionable validation failures together. Preserve intentional fail-fast behavior and do not leak private data or internals to make an error more complete.
 - When relevant, inspect authorization and ownership, resource cleanup, cancellation, concurrency, and partial updates. Tie checks to the affected behavior; avoid a generic hardening campaign.
@@ -40,6 +41,6 @@ Follow the user's task and applicable project instructions. Use documented archi
 - Assert the contract that matters. Use full-object assertions when the entire stable shape is the contract; intentional subsets are valid for open or unrelated fields. Avoid coupling tests to private steps when the public behavior can be exercised reliably.
 - For user-visible flows and integrations, exercise the running application or interface when practical. Passing CI or a unit test alone does not establish that the flow works. State any unavailable environment or credentials.
 - Run the relevant project checks. Separate pre-existing or environmental failures from regressions using evidence. Do not weaken tests or disable checks to make a change pass.
-- Distinguish implemented behavior, observed results, and assumptions. Report commands and outcomes accurately, including checks not run. Missing verification is a limitation, not a passing result.
+- Distinguish implemented behavior, observed results, and assumptions. Report commands and outcomes accurately, including checks not run. When an applicable verification step is skipped, name the concrete obstacle or proportionality reason and any alternative evidence. Missing verification is a limitation, not a passing result.
 
 For calibration on comments, tests, and review findings, read [examples.md](examples.md) when a decision is unclear.

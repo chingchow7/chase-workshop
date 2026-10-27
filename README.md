@@ -2,7 +2,7 @@
 
 Three development workflows for focused implementation, evidence-based bug fixes, and careful pull-request review.
 
-The skills apply shared engineering standards while working with the project's own architecture, tooling, and CI. They are Markdown instructions for a coding agent; they do not enforce behavior or guarantee a clea PR.
+The skills apply shared engineering standards while working with the project's own architecture, tooling, and CI. They are Markdown instructions for a coding agent; they do not enforce behavior or guarantee a clean PR.
 
 ## Choose a skill
 
@@ -61,6 +61,8 @@ Use chase-pr-readiness to review this branch against [target branch].
 
 Do not overwrite existing project guidance. The locator rule itself is always attached; the full workflows are read when requested. Follow-up instructions can authorize fixes or further work without repeating the setup.
 
+For a less biased PR review, prefer a fresh chat when another chat implemented the change. Supply the task requirements, actual target branch, and relevant constraints so the reviewer can assess the code independently. This is a recommendation, not a prerequisite for review.
+
 ### Optional native discovery
 
 Cursor supports project skills under `.cursor/skills/` and discovers nested `SKILL.md` files. To use that discovery, preserve the complete bundle under a category directory:
@@ -82,11 +84,15 @@ your-project/
 
 Keep the `skills/` and `standards/` relationship intact: copying only an individual skill breaks its shared reference. Include both license notices when distributing the bundle. Type `/` in Cursor chat and select the discovered skill to invoke it explicitly. Use one setup consistently so the agent does not see competing copies. [Cursor skills documentation](https://cursor.com/docs/skills)
 
+Native discovery also allows Cursor to select a skill automatically when it judges the description relevant. Explicit invocation is the recommended way to select the intended workflow reliably; it is not an explicit-only restriction. For named commands, choose `/chase-task`, `/chase-bug`, or `/chase-pr-readiness`. If you want to prevent automatic selection, add `disable-model-invocation: true` to each installed skill's YAML frontmatter. That setting controls Cursor's native discovery, not whether an agent can read the file when instructed directly. [Cursor invocation controls](https://cursor.com/docs/skills#disabling-automatic-invocation)
+
 This repository does not depend on Claude Code plugins, hooks, subagents, or a skill-manager CLI. Other agents can read the files directly; their native discovery conventions may differ.
 
 ## Project-specific context
 
 Each skill reads the application repository's existing instructions and optional `.agents/chase-project.md`. Use [the template](templates/chase-project.md) for local architecture, canonical helpers, vocabulary, exact test commands, environment requirements, and intentional exceptions. Keep this file in the application repository, outside the installed skills bundle, so skill updates do not replace local conventions.
+
+For projects with repeatable app or integration checks, the template includes a compact verification recipe: launch, readiness, scenario, evidence, and cleanup. Fill in only the parts the project needs, using existing tooling.
 
 No project overlay is required. Do not create one merely to run a skill.
 

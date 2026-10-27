@@ -50,10 +50,14 @@ For a bug involving duplicate submissions, test the observable duplicate-prevent
 Actionable:
 
 > Blocking - `src/orders.ts:84`: Retrying after a timeout can submit the same order twice because the retry generates a new idempotency key. Reuse the key for the logical operation and cover the timeout/retry case.
+>
+> Evidence: Traced - the timeout handler resubmits through the key-generating entry point; this path was not executed. Remedy: Behavior-affecting - repeat attempts must share one key, changing duplicate-submission behavior; check the retry caller and payment adapter's key contract.
 
 Actionable maintainability suggestion:
 
 > Suggestion - `src/project-search.ts:32`: This adds a second implementation of tenant filtering already owned by `visibleProjectsQuery`. Reuse it here so permission changes do not need coordinated edits in two places.
+>
+> Evidence: Traced - the new query repeats the canonical query's tenant predicate. Remedy: impact unverified until the helper's visibility defaults and callers are checked; matching one predicate alone does not prove equivalent behavior.
 
 Insufficient:
 

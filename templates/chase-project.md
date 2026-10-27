@@ -12,7 +12,19 @@ Name shared schemas, domain terminology, public interfaces, compatibility requir
 
 ## Tests and verification
 
-Provide exact commands from this repository for relevant unit, integration, end-to-end, lint, and type checks. State required services and test-data isolation. Include a practical way to exercise important user flows. Omit commands or test levels that do not exist.
+Provide exact commands from this repository for relevant unit, integration, end-to-end, lint, and type checks, using the actual configurations and flags. State required services and test-data isolation. Omit commands or test levels that do not exist.
+
+### Optional app-verification recipe
+
+For repeated user-flow or integration verification, record only the relevant parts:
+
+- **Launch:** working directory, command, required services, and how to detect readiness before driving the app. Refer to credential setup without embedding secrets.
+- **Preflight:** required configuration, isolated test data or account, dependency health checks, and how to recognize an unavailable environment.
+- **Scenario:** entry point, inputs or fixture, actions, and the expected observable result. Where persistence matters, include independent read-back rather than relying only on a success message.
+- **Evidence:** the assertions, output, screenshots, or read-back that demonstrate the result; where console, stderr, and server errors surface; and where non-sensitive evidence belongs.
+- **Cleanup:** how to remove only the test data and processes created by this run, including after a failure. Leave pre-existing services and user data intact.
+
+This recipe is optional project context, not a requirement to add a new verification framework or maintain a full navigation map.
 
 ## Review context
 

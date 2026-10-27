@@ -15,11 +15,11 @@ Carry the requested task through implementation and relevant verification. A pla
 
 ## Implement
 
-- Establish acceptance criteria from the request: the expected outcome, relevant failure cases, and compatibility constraints. State material assumptions briefly. Ask only about unresolved choices that change those outcomes; continue useful independent work while waiting.
+- Establish acceptance criteria from the request: the expected outcome, relevant failure cases, and compatibility constraints. State material assumptions briefly and resolve routine choices from available evidence. Ask about material unresolved choices before dependent edits; continue safe independent work as the interface permits.
 - Inspect relevant code paths, callers, shared implementations, and tests. Search for existing behavior before introducing a helper, type, dependency, or service. Reuse only where semantics fit.
 - Choose a focused implementation. For a substantial architectural choice, compare credible alternatives briefly; do not require a design ceremony for routine edits.
 - Apply the shared standards as you write. Preserve established layer boundaries and domain terminology. Avoid unrelated cleanup and speculative abstractions.
-- For a planned refactor, identify the observable behavior and contracts that must stay stable, including errors and side effects. Keep feature changes separate unless explicitly requested. Inspect affected references rather than using broad textual replacement for renames.
+- For a planned refactor, identify the observable behavior and contracts that must stay stable, including errors and side effects. Establish a baseline with relevant existing checks and add targeted characterization coverage for important uncovered behavior when practical before restructuring. Keep feature changes separate unless explicitly requested. Inspect affected references rather than using broad textual replacement for renames.
 - Update documentation or configuration when the task changes the contract they describe. Keep comments necessary and concise.
 
 ## Verify and finish

@@ -21,9 +21,15 @@ Find the cause of the reported failure and fix the affected behavior. Distinguis
 - Test the leading explanation against the evidence. Do not fix the first suspicious line merely because it looks unusual. Narrow an uncertain diagnosis before making broad changes.
 - If the expected behavior is genuinely ambiguous, clarify the product contract. A failing test, current output, or old comment is evidence rather than unquestionable authority.
 
+## When the cause remains unconfirmed
+
+- When natural reproduction is unavailable, try a deterministic case using the project's existing test seams: an injected timeout or failure, a controlled clock, or a repeatable sequence. Check that the modeled conditions can occur on the real path. A simulated failure demonstrates a mechanism; it does not establish that the reported incident had that cause.
+- If evidence still does not establish the cause, do not invent a fix. Make an independently justified correction or a focused diagnostic change only when supported by the evidence and within the task's scope; otherwise leave application code unchanged. Explain what evidence or access would resolve the uncertainty.
+- Report the outcome accurately: a verified fix, a mitigation with cause unconfirmed, diagnostic-only progress, or an investigation blocked on specific evidence. Do not mark the reported bug resolved merely because a plausible defensive change passes tests.
+
 ## Fix and verify
 
-- Make the smallest coherent fix for the established cause. Preserve compatibility outside the intended correction. Avoid patches that hide the failure with an empty catch, fabricated default, arbitrary delay, or unbounded retry.
+- For an established cause, make the smallest coherent fix. Preserve compatibility outside the intended correction. Avoid patches that hide the failure with an empty catch, fabricated default, arbitrary delay, or unbounded retry.
 - Prefer a regression test that fails on the original implementation and passes with the fix. Capture the pre-fix failure before editing when practical. If it was not checked, say so; never report an inferred red/green result as observed.
 - Include other affected callers or a related boundary case where the diagnosis shows they are at risk. Choose the appropriate test level using the project's setup, rather than automatically adding both unit and end-to-end tests.
 - Verify the original failure path, relevant surrounding behavior, and applicable project checks. Exercise the real app or interface when practical. Do not weaken an assertion merely to match the broken behavior.
