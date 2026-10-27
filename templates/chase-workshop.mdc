@@ -1,0 +1,10 @@
+---
+description: Locate Chase Workshop skills when explicitly requested.
+alwaysApply: true
+---
+
+Chase Workshop is checked out at `F:/github/chase-workshop`.
+
+When asked to use `chase-task`, `chase-bug`, or `chase-pr-readiness`, read `F:/github/chase-workshop/skills/<skill-name>/SKILL.md` and follow its referenced standards. Resolve resource paths relative to the instruction file. If the checkout is unavailable, report that instead of claiming to have used it.
+
+Apply the workflow to the application repository named in the request or current application workspace. Do not make application edits in the skills checkout. This rule locates explicitly requested skills; it does not automatically run a review or authorize external actions.
