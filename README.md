@@ -17,12 +17,18 @@ All four read [Chase engineering standards](standards/engineering.md). Standards
 
 ## Use the local checkout directly
 
-Keep this repository accessible to the agent alongside the application repository. For the initial checkout at `F:/github/chase-workshop`, use these explicit prompts. Replace bracketed task details and the review target with actual values.
+Clone this repository wherever you keep your projects, and make it accessible to the agent alongside the application repository:
+
+```text
+git clone https://github.com/chingchow7/chase-workshop.git
+```
+
+In the prompts below, replace `[chase-workshop-path]` with your checkout's actual path. It can be absolute or relative to the application repository's root. This is a placeholder, not an environment variable; no particular drive, operating system, or folder layout is required. Replace the bracketed task details and review target too.
 
 **Task**
 
 ```text
-Read F:/github/chase-workshop/skills/chase-task/SKILL.md and its referenced
+Read [chase-workshop-path]/skills/chase-task/SKILL.md and its referenced
 standards. Apply that workflow to the current application repository to
 implement: [task and acceptance criteria]. Continue through implementation
 and relevant verification.
@@ -31,7 +37,7 @@ and relevant verification.
 **Bug**
 
 ```text
-Read F:/github/chase-workshop/skills/chase-bug/SKILL.md and its referenced
+Read [chase-workshop-path]/skills/chase-bug/SKILL.md and its referenced
 standards. Apply that workflow to the current application repository to
 investigate and fix: [expected behavior, actual behavior, and reproduction
 details]. Distinguish confirmed causes from hypotheses.
@@ -40,7 +46,7 @@ details]. Distinguish confirmed causes from hypotheses.
 **Your PR: readiness before submission**
 
 ```text
-Read F:/github/chase-workshop/skills/chase-pr-readiness/SKILL.md and its
+Read [chase-workshop-path]/skills/chase-pr-readiness/SKILL.md and its
 referenced standards. Review the current application branch against
 [actual target branch], including relevant local changes. Report actionable
 findings before editing, and state what you could not verify.
@@ -49,7 +55,7 @@ findings before editing, and state what you could not verify.
 **Someone else's PR: review**
 
 ```text
-Read F:/github/chase-workshop/skills/chase-pr-review/SKILL.md and its
+Read [chase-workshop-path]/skills/chase-pr-review/SKILL.md and its
 referenced standards and report format. Review [PR URL] at its current
 head against its actual target. Read existing review comments too.
 Start with the short plain-language summary and priority files, then give
@@ -62,7 +68,7 @@ If the agent cannot access an external folder, add the checkout to the workspace
 
 ### Shorter prompts in Cursor
 
-Optionally copy [templates/chase-workshop.mdc](templates/chase-workshop.mdc) into the application repository's `.cursor/rules/chase-workshop.mdc`. Adjust the checkout path for other machines. The rule tells the agent where explicitly requested skills live; it does not duplicate the standards.
+Optionally copy [templates/chase-workshop.mdc](templates/chase-workshop.mdc) into the application repository's `.cursor/rules/chase-workshop.mdc`. Replace `[chase-workshop-path]` in that rule with your checkout's actual path before using it. Relative paths are resolved from the application repository's root. The rule tells the agent where explicitly requested skills live; it does not duplicate the standards.
 
 Then use:
 
